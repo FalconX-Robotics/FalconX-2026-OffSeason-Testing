@@ -1,0 +1,48 @@
+{
+  "robotWidth": 0.94,
+  "robotLength": 0.787,
+  "holonomicMode": true,
+  "pathFolders": [
+    "Using"
+  ],
+  "autoFolders": [
+    "Using"
+  ],
+  "defaultMaxVel": 3.0,
+  "defaultMaxAccel": 3.0,
+  "defaultMaxAngVel": 540.0,
+  "defaultMaxAngAccel": 720.0,
+  "defaultNominalVoltage": 12.0,
+  "robotMass": 42.456,
+  "robotMOI": 5.317504332,
+  "robotTrackwidth": 0.546,
+  "driveWheelRadius": 0.05,
+  "driveGearing": 6.75,
+  "maxDriveSpeed": 3.5,
+  "driveMotorType": "NEO",
+  "driveCurrentLimit": 60.0,
+  "wheelCOF": 1.2,
+  "flModuleX": 0.243,
+  "flModuleY": 0.3170174,
+  "frModuleX": 0.2427224,
+  "frModuleY": -0.3170174,
+  "blModuleX": -0.243,
+  "blModuleY": 0.3170174,
+  "brModuleX": -0.243,
+  "brModuleY": -0.3170174,
+  "bumperOffsetX": 0.0,
+  "bumperOffsetY": 0.0,
+  "robotFeatures": [
+    "{\"name\":\"Circle\",\"type\":\"circle\",\"data\":{\"center\":{\"x\":0.0,\"y\":0.3},\"radius\":0.05,\"strokeWidth\":0.02,\"filled\":false}}",
+    "{\"name\":\"Circle\",\"type\":\"circle\",\"data\":{\"center\":{\"x\":0.0,\"y\":0.1},\"radius\":0.05,\"strokeWidth\":0.02,\"filled\":false}}",
+    "{\"name\":\"Circle\",\"type\":\"circle\",\"data\":{\"center\":{\"x\":0.0,\"y\":-0.1},\"radius\":0.05,\"strokeWidth\":0.02,\"filled\":false}}",
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.0,\"y\":0.352},\"end\":{\"x\":0.15,\"y\":0.3},\"strokeWidth\":0.016}}",
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.0,\"y\":0.152},\"end\":{\"x\":0.15,\"y\":0.1},\"strokeWidth\":0.016}}",
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.0,\"y\":-0.048},\"end\":{\"x\":0.15,\"y\":-0.1},\"strokeWidth\":0.016}}",
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":-0.05,\"y\":-0.3},\"end\":{\"x\":-0.05,\"y\":-0.2},\"strokeWidth\":0.02}}",
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.05,\"y\":-0.3},\"end\":{\"x\":-0.05,\"y\":-0.2},\"strokeWidth\":0.02}}",
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.05,\"y\":-0.3},\"end\":{\"x\":0.1,\"y\":-0.25},\"strokeWidth\":0.02}}",
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.1,\"y\":-0.25},\"end\":{\"x\":0.05,\"y\":-0.2},\"strokeWidth\":0.02}}",
+    "{\"name\":\"Rectangle\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.0,\"y\":-0.385},\"size\":{\"width\":0.03,\"length\":0.03},\"borderRadius\":0.05,\"strokeWidth\":0.02,\"filled\":false}}"
+  ]
+}

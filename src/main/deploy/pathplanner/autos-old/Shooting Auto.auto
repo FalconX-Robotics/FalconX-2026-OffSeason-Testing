@@ -1,0 +1,45 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "autoFeedIntoStorage"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "rotateToTarget"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "getToSpeed"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoFeedFromStorage"
+            "name": "autoFeedFromStorage"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": false,
+  "folder": null,
+  "choreoAuto": false
+}

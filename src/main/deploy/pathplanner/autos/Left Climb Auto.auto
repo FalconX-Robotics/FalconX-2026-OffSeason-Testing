@@ -1,0 +1,38 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "climbdown"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Left Climb A"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "climbup"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Using",
+  "choreoAuto": false
+}

@@ -1,0 +1,102 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 6.930113636363636,
+        "y": 7.2095
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.795696314593381,
+        "y": 7.173136005890423
+      },
+      "isLocked": false,
+      "linkedName": "NZ Path B2"
+    },
+    {
+      "anchor": {
+        "x": 5.950965909090908,
+        "y": 5.869613636363637
+      },
+      "prevControl": {
+        "x": 7.528133598601068,
+        "y": 5.055262926187005
+      },
+      "nextControl": {
+        "x": 5.45160351951079,
+        "y": 6.127453128825195
+      },
+      "isLocked": false,
+      "linkedName": "NZ Path B3"
+    },
+    {
+      "anchor": {
+        "x": 4.961511363636363,
+        "y": 7.405329545454546
+      },
+      "prevControl": {
+        "x": 7.156487172123628,
+        "y": 7.395024199478909
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "NZ Path BC2"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.21,
+      "maxWaypointRelativePos": 1.6629921259842537,
+      "constraints": {
+        "maxVelocity": 0.5,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 4.625594,
+        "y": 4.034536
+      },
+      "rotationOffset": 180.0,
+      "minWaypointRelativePos": 0.21,
+      "maxWaypointRelativePos": 1.4917865474339034,
+      "name": "Point Towards Zone"
+    }
+  ],
+  "eventMarkers": [
+    {
+      "name": "maxPowerControlledShoot",
+      "waypointRelativePos": 0.21,
+      "endWaypointRelativePos": 1.49,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": "Using",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}

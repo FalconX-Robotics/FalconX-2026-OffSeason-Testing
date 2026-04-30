@@ -1,0 +1,59 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.837269736842105,
+        "y": 3.6215021929824562
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 8.327697368421052,
+        "y": 3.698432017543859
+      },
+      "isLocked": false,
+      "linkedName": "End of NZ Path B3"
+    },
+    {
+      "anchor": {
+        "x": 7.5968640350877195,
+        "y": 0.6116228070175429
+      },
+      "prevControl": {
+        "x": 7.653434704830055,
+        "y": 0.927835420393559
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "End of NZ Path C2"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.25,
+      "rotationDegrees": -100.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": "Using",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 100.0
+  },
+  "useDefaultConstraints": true
+}
