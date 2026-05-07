@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.util.datalog.BooleanLogEntry;
@@ -71,14 +72,8 @@ StringLogEntry myStringLog;
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    autonomousCommand = this.robotContainer.getAutonomousCommand();
-    DataLogManager.log("Auto Finished Successfully");
-    SmartDashboard.putBoolean("AutoSuccess", true);
-    DriverStation.reportWarning("Auto Finished", false);
-    
-    // schedule the autonomous command (example)
-    if (this.autonomousCommand != null) {
-      this.commandScheduler.schedule(autonomousCommand);
+    if (this.robotContainer.autoChooser.selectedCommand() != null){
+      CommandScheduler.getInstance().schedule(this.robotContainer.autoChooser.selectedCommandScheduler());
     }
   }
 

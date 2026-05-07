@@ -24,9 +24,12 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.pathfinding.LocalADStar;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 
+import choreo.auto.AutoFactory;
+import choreo.trajectory.SwerveSample;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -742,4 +745,28 @@ public class SwerveSubsystem extends SubsystemBase {
 
     return Math.abs(robotAngle - targetAngle) < 0.1;
   }
+
+
+
+
+  public void followChoreoTrajectory(SwerveSample sample) {
+        // Get the current pose of the robot
+        Pose2d pose = getPose();
+
+        //initilize PIDControllers
+        final PIDController xController = new PIDController(5.0, 0.25, 0.0);
+        final PIDController yController = new PIDController(5.0, 0.25, 0.0);
+        final PIDController headingController = new PIDController(5.0, 0.0, 0.0);
+
+        // Generate the next speeds for the robot
+        ChassisSpeeds speeds = new ChassisSpeeds(
+            sample.vx + xController.calculate(pose.getX(), sample.x),
+            sample.vy + yController.calculate(pose.getY(), sample.y),
+            sample.omega + headingController.calculate(pose.getRotation().getRadians(), sample.heading)
+        );
+      // System.out.println(speeds);
+        // Apply the generated speeds
+        drive(speeds);
+    }
+
 }

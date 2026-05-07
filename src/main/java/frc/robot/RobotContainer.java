@@ -11,14 +11,21 @@ import org.photonvision.PhotonCamera;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import choreo.auto.AutoChooser;
+import choreo.auto.AutoFactory;
+import choreo.auto.AutoRoutine;
+import choreo.auto.AutoTrajectory;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ClimbDown;
 import frc.robot.commands.ClimbUp;
@@ -35,6 +42,7 @@ import frc.robot.commands.ManualShoot;
 import frc.robot.commands.RotateToTarget;
 import frc.robot.commands.SwitchVisionState;
 import frc.robot.commands.ToggleVision;
+import frc.robot.commands.autos.Autos;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Shooter;
@@ -49,9 +57,11 @@ import frc.robot.util.Util;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  public SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+  public AutoChooser autoChooser = new AutoChooser();
+  public AutoFactory autoFactory;
 
   public static final boolean atRecEvent = true;
+
   
   public static class Controllers {
     /**
@@ -104,6 +114,8 @@ public class RobotContainer {
     public SwitchVisionState switchVisionState;
 
     public ToggleVision toggleVision;
+
+    public Autos autos;
   }
 
   public final Controllers controllers = new Controllers();
@@ -147,10 +159,9 @@ public class RobotContainer {
     this.commands.maxPowerControlledShoot = new ControlledShoot(this, 1);
     this.commands.driverInvert = new DriverInvert(this);
     this.commands.lockSwerve = new LockSwerve(this);
-
     this.commands.switchVisionState = new SwitchVisionState(this);
-
     this.commands.toggleVision = new ToggleVision(this);
+
     
     this.commands.standardDrive = new ParallelCommandGroup(this.subsystems.swerve.driveInputs(
       () -> (RobotContainer.atRecEvent ? 0.50 : 0.90) * -this.settings.driverSettings.getLeftY(),
@@ -164,31 +175,20 @@ public class RobotContainer {
       () -> (RobotContainer.atRecEvent ? 0.25 : 0.5) * -this.settings.driverSettings.getRightX()
     ));
 
-    this.subsystems.swerve.setupPathPlanner();
-    
-    NamedCommands.registerCommand("rotateToTarget", this.commands.rotateToTarget);
-    NamedCommands.registerCommand("getToSpeed", this.commands.getToSpeed);
-    NamedCommands.registerCommand("intake", this.commands.intake);
-    NamedCommands.registerCommand("autoShoot", this.commands.autoShoot);
-    NamedCommands.registerCommand("climbup", this.commands.climbUp);
-    NamedCommands.registerCommand("climbdown", this.commands.climbDown);
-    NamedCommands.registerCommand("autoShootIntoHub", this.commands.autoShootIntoHub);
-    NamedCommands.registerCommand("lowPowerControlledShoot", this.commands.lowPowerControlledShoot); //0.55
-    NamedCommands.registerCommand("meduimPowerControlledShoot", this.commands.meduimPowerControlledShoot); //0.70
-    NamedCommands.registerCommand("highPowerControlledShoot", this.commands.highPowerControlledShoot); //0.85
-    NamedCommands.registerCommand("maxPowerControlledShoot", this.commands.maxPowerControlledShoot); // 1.0
-    NamedCommands.registerCommand("switchVisionState", this.commands.switchVisionState);
-    NamedCommands.registerCommand("sixtyPowerControlledShoot", new ControlledShoot(this, 0.6));
-    NamedCommands.registerCommand("90PowerControlledShoot", new ControlledShoot(this, 0.90));
-    NamedCommands.registerCommand("95PowerControlledShoot", new ControlledShoot(this, 0.95));
-    NamedCommands.registerCommand("85PowerControlledShoot", new ControlledShoot(this, 0.85));
-    NamedCommands.registerCommand("65PowerControlledShoot", new ControlledShoot(this, 0.65));
-    NamedCommands.registerCommand("75PowerControlledShoot", new ControlledShoot(this, 0.75));
-    NamedCommands.registerCommand("85PowerControlledGetToSpeed", new ControlledGetToSpeed(this, 0.85));
-    NamedCommands.registerCommand("meduimPowerControlledGetToSpeed", new ControlledGetToSpeed(this, 0.70));
-    NamedCommands.registerCommand("maxPowerControlledGetToSpeed", new ControlledGetToSpeed(this, 1.0));
- 
-    this.autoChooser = AutoBuilder.buildAutoChooser();
+
+   
+    autoFactory = new AutoFactory(
+            this.subsystems.swerve::getPose, // A function that returns the current robot pose
+            this.subsystems.swerve::resetOdometry, // A function that resets the current robot pose to the provided Pose2d
+            this.subsystems.swerve::followChoreoTrajectory, // The drive subsystem trajectory follower 
+            DriverStation.getAlliance().isPresent() ? DriverStation.getAlliance().get() == DriverStation.Alliance.Red : false, // If alliance flipping should be enabled 
+            this.subsystems.swerve // The drive subsystem
+        );
+        
+    this.commands.autos = new Autos(this);
+
+    autoChooser.addRoutine("middleShoot", this.commands.autos::middleShoot);
+
     SmartDashboard.putData("Auto Chooser", this.autoChooser);
 
     // Configure trigger bindings
@@ -260,9 +260,6 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    return this.autoChooser.getSelected();
-  }
 
   public void setDriveMode() {
     this.configureBindings();
