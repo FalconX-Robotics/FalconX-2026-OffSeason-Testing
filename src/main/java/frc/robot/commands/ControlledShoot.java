@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Feeder;
@@ -16,17 +17,30 @@ public class ControlledShoot extends Command {
     this.power = power;
 
     super.addRequirements(this.shooterSubsystem, this.feederSubsystem);
+
+    SmartDashboard.putNumber("Power for shoot", 0);
+    SmartDashboard.putBoolean("ControlledShoot running", false);
+
   }
 
   @Override
   public void initialize() {
     // this.shooterSubsystem.motor.set(this.power);
     this.feederSubsystem.motor.set(-this.power * 0.75);
+    SmartDashboard.putNumber("Power for shoot", power);
+    SmartDashboard.putBoolean("ControlledShoot running", true);
   }
 
   @Override
   public void end(boolean interrupted) {
+
     this.shooterSubsystem.motor.set(0.0);
     this.feederSubsystem.motor.set(0.0);
+
+    
+    SmartDashboard.putBoolean("ControlledGetToSpeed running", false);
+    SmartDashboard.putNumber("ControlledGetToSpeed power:", 0);
+    SmartDashboard.putNumber("Power for shoot", 0);
+    SmartDashboard.putBoolean("ControlledShoot running", false);
   }
 }

@@ -24,7 +24,6 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.pathfinding.LocalADStar;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 
-import choreo.auto.AutoFactory;
 import choreo.trajectory.SwerveSample;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -104,6 +103,12 @@ public class SwerveSubsystem extends SubsystemBase {
   
   public final PathConstraints pathConstraints;
 
+  //initilize PIDControllers for Choreo Auto
+  final PIDController xAutoController = new PIDController(5.0, 0.25, 0.0);
+  final PIDController yAutoController = new PIDController(5.0, 0.25, 0.0);
+  final PIDController headingAutoController = new PIDController(5.0, 0.0, 0.0);
+  
+
   private final RobotContainer robotContainer;
 
   public SwerveDrive getSwerveDrive() {
@@ -160,6 +165,10 @@ public class SwerveSubsystem extends SubsystemBase {
     final double maxAngularVelocity = swerveDrive.getMaximumChassisAngularVelocity();
     final double maxAngularAcceleration = Units.degreesToRadians(2131);
     pathConstraints = new PathConstraints(maxLinearVelocity, 4.0, maxAngularVelocity, maxAngularAcceleration);
+  
+  //enable Continous Input for choreo heading PIDController
+    headingAutoController.enableContinuousInput(-Math.PI, Math.PI);
+  
   }
 
   /**
@@ -753,20 +762,21 @@ public class SwerveSubsystem extends SubsystemBase {
         // Get the current pose of the robot
         Pose2d pose = getPose();
 
-        //initilize PIDControllers
-        final PIDController xController = new PIDController(5.0, 0.25, 0.0);
-        final PIDController yController = new PIDController(5.0, 0.25, 0.0);
-        final PIDController headingController = new PIDController(5.0, 0.0, 0.0);
-
         // Generate the next speeds for the robot
-        ChassisSpeeds speeds = new ChassisSpeeds(
-            sample.vx + xController.calculate(pose.getX(), sample.x),
-            sample.vy + yController.calculate(pose.getY(), sample.y),
-            sample.omega + headingController.calculate(pose.getRotation().getRadians(), sample.heading)
+        ChassisSpeeds fieldRelativeSpeeds = new ChassisSpeeds(
+            sample.vx + xAutoController.calculate(pose.getX(), sample.x),
+            sample.vy + yAutoController.calculate(pose.getY(), sample.y),
+            sample.omega + headingAutoController.calculate(pose.getRotation().getRadians(), sample.heading)
         );
-      // System.out.println(speeds);
-        // Apply the generated speeds
-        drive(speeds);
+
+        //convert from fieldRelativeSpeeds to robotRelative
+        ChassisSpeeds robotRelativeSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+            fieldRelativeSpeeds,
+            pose.getRotation()
+        );
+
+        // Apply the robot relative speeds
+        drive(robotRelativeSpeeds);
     }
 
 }

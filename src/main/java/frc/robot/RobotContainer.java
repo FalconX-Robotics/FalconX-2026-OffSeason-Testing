@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
@@ -109,6 +110,11 @@ public class RobotContainer {
     public ControlledShoot highPowerControlledShoot;
     public ControlledShoot maxPowerControlledShoot;
 
+    public ControlledGetToSpeed lowPowGetToSpeed;
+    public ControlledGetToSpeed medPowGetToSpeed;
+    public ControlledGetToSpeed highPowGetToSpeed;
+    public ControlledGetToSpeed maxPowGetToSpeed;
+
     public DriverInvert driverInvert;
 
     public SwitchVisionState switchVisionState;
@@ -116,6 +122,7 @@ public class RobotContainer {
     public ToggleVision toggleVision;
 
     public Autos autos;
+    
   }
 
   public final Controllers controllers = new Controllers();
@@ -157,6 +164,10 @@ public class RobotContainer {
     this.commands.meduimPowerControlledShoot = new ControlledShoot(this, 0.70);
     this.commands.highPowerControlledShoot = new ControlledShoot(this, 0.85);
     this.commands.maxPowerControlledShoot = new ControlledShoot(this, 1);
+    this.commands.lowPowGetToSpeed = new ControlledGetToSpeed(this, 0.70);
+    this.commands.medPowGetToSpeed = new ControlledGetToSpeed(this, 0.85);
+    this.commands.highPowGetToSpeed = new ControlledGetToSpeed(this, 0.925);
+    this.commands.maxPowGetToSpeed = new ControlledGetToSpeed(this, 1.0);
     this.commands.driverInvert = new DriverInvert(this);
     this.commands.lockSwerve = new LockSwerve(this);
     this.commands.switchVisionState = new SwitchVisionState(this);
