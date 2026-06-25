@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
+import frc.robot.commands.ControlledGetToSpeed;
+import frc.robot.commands.ControlledShoot;
 
 public class Autos extends Command {
 
@@ -33,7 +35,7 @@ public class Autos extends Command {
             middleToShoot.resetOdometry(),
             Commands.race(
                 middleToShoot.cmd(),
-                this.robotContainer.commands.medPowGetToSpeed
+                new ControlledGetToSpeed(this.robotContainer, 0.85) //new instance to prevent illegal argument error
                 
             )
           
@@ -44,7 +46,7 @@ public class Autos extends Command {
         middleToShoot.done().onTrue(
             Commands.race(
                 new WaitCommand(5),
-                this.robotContainer.commands.meduimPowerControlledShoot
+                new ControlledShoot(this.robotContainer, 0.70)
 
             )
             

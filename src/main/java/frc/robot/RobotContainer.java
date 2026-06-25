@@ -192,7 +192,7 @@ public class RobotContainer {
             this.subsystems.swerve::getPose, // A function that returns the current robot pose
             this.subsystems.swerve::resetOdometry, // A function that resets the current robot pose to the provided Pose2d
             this.subsystems.swerve::followChoreoTrajectory, // The drive subsystem trajectory follower 
-            DriverStation.getAlliance().isPresent() ? DriverStation.getAlliance().get() == DriverStation.Alliance.Red : false, // If alliance flipping should be enabled 
+            true, //determines if it should flip AUTOMATICALLY depending on the alliance
             this.subsystems.swerve // The drive subsystem
         );
         
