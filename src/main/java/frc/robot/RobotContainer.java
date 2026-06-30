@@ -200,6 +200,8 @@ public class RobotContainer {
 
     autoChooser.addRoutine("middleShoot", this.commands.autos::middleShoot);
 
+    autoChooser.addRoutine("mToShootToR", this.commands.autos::mToShootToR);
+
     SmartDashboard.putData("Auto Chooser", this.autoChooser);
 
     // Configure trigger bindings

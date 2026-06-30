@@ -23,6 +23,10 @@ public class Autos extends Command {
 
         SmartDashboard.putBoolean("Marker Auto hit", false);
     }
+    /**
+     * AutoRoutine to go from middle hub position (facing hub) to shooting position near climb
+     * @return AutoRoutinue
+     */
     public AutoRoutine middleShoot() {
         
         AutoRoutine routine = this.autoFactory.newRoutine("middleShoot");
@@ -63,4 +67,43 @@ public class Autos extends Command {
         return routine;
 
     }
+
+    /**
+     * Middle Hub Pose to Shooting Pose to Right Trench Pose Auto Routinue
+     * @return AutoRoutine
+     */
+    public AutoRoutine mToShootToR() {
+        AutoRoutine routine = this.autoFactory.newRoutine("mToShootToR");
+
+        AutoTrajectory lineUpToShootTraj = routine.trajectory("mToShootToR", 0);
+        AutoTrajectory toRightFromShootTraj = routine.trajectory("mToShootToR", 1);
+
+        routine.active().onTrue(
+            Commands.sequence(
+                lineUpToShootTraj.resetOdometry(),
+            Commands.race(
+                new ControlledGetToSpeed(this.robotContainer, 0.85),      
+                lineUpToShootTraj.cmd()
+            )
+            
+            )
+        );
+            lineUpToShootTraj.done().onTrue(
+               Commands.sequence(
+                Commands.runOnce( () -> SmartDashboard.putBoolean("Marker Auto hit", true)),
+                Commands.race(
+                    new ControlledShoot(robotContainer, 0.70),
+                    new WaitCommand(4)
+                ),
+                Commands.runOnce( () -> SmartDashboard.putBoolean("Marker Auto hit", false)),
+                 toRightFromShootTraj.cmd()
+               )
+            );
+
+            return routine;
+
+
+    }
+
+
 }
