@@ -1,5 +1,7 @@
 package frc.robot.commands.autos;
 
+import java.util.function.BooleanSupplier;
+
 import choreo.auto.AutoFactory;
 import choreo.auto.AutoRoutine;
 import choreo.auto.AutoTrajectory;
@@ -9,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
+import frc.robot.commands.ClimbDown;
+import frc.robot.commands.ClimbUp;
 import frc.robot.commands.ControlledGetToSpeed;
 import frc.robot.commands.ControlledShoot;
 
@@ -65,7 +69,7 @@ public class Autos extends Command {
         }));
 
         return routine;
-
+        
     }
 
     /**
@@ -103,6 +107,46 @@ public class Autos extends Command {
             return routine;
 
 
+    }
+
+    public AutoRoutine mToClimb() {
+        AutoRoutine routine = this.autoFactory.newRoutine("mToClimb");
+
+        AutoTrajectory toClimbReadyTraj = routine.trajectory("mToClimb", 0);
+        AutoTrajectory toClimbTraj = routine.trajectory("mToClimb", 1);
+        
+        ClimbDown climbDown = new ClimbDown(this.robotContainer);
+        routine.active().onTrue(
+            Commands.sequence(
+                toClimbReadyTraj.resetOdometry(),
+                toClimbReadyTraj.cmd()
+            ) 
+        );
+
+        toClimbReadyTraj.active().onTrue(
+            climbDown
+        );
+
+        toClimbReadyTraj.done().onTrue(
+        Commands.waitUntil(() -> !(climbDown.isScheduled())).andThen(toClimbTraj.cmd())
+        );
+
+        toClimbTraj.done().onTrue(
+            new ClimbUp(robotContainer)
+        );
+
+        //trying out .atTime()
+        toClimbReadyTraj.atTime(0.8).onTrue(
+            Commands.runOnce(() -> SmartDashboard.putBoolean("Marker Auto hit", true))
+        );
+
+        
+        toClimbTraj.atTime(1.0).onTrue(
+            Commands.runOnce(() -> SmartDashboard.putBoolean("Marker Auto hit", false))
+        );
+        ////////
+
+        return routine;
     }
 
 

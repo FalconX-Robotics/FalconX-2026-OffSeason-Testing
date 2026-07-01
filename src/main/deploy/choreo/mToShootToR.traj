@@ -22,7 +22,8 @@
     {"x":{"exp":"3.606717109680176 m", "val":3.606717109680176}, "y":{"exp":"0.6351388096809387 m", "val":0.6351388096809387}, "heading":{"exp":"0 deg", "val":0.0}, "intervals":14, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
   "constraints":[
     {"from":1, "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
-    {"from":1, "to":1, "data":{"type":"PointAt", "props":{"x":{"exp":"4.627518653869629 m", "val":4.627518653869629}, "y":{"exp":"4.016034126281738 m", "val":4.016034126281738}, "tolerance":{"exp":"1 deg", "val":0.017453292519943295}, "flip":true}}, "enabled":true}],
+    {"from":1, "to":1, "data":{"type":"PointAt", "props":{"x":{"exp":"4.627518653869629 m", "val":4.627518653869629}, "y":{"exp":"4.016034126281738 m", "val":4.016034126281738}, "tolerance":{"exp":"1 deg", "val":0.017453292519943295}, "flip":true}}, "enabled":true},
+    {"from":"last", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true}],
   "targetDt":{
    "exp":"0.05 s",
    "val":0.05
